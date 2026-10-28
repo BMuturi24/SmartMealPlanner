@@ -7,6 +7,6 @@ data class Client(
     val budget: String
 ) {
     fun summary(): String {
-        return "$name\nPhone: $phone\nEmail: $email\nMy Budget: $budget"
+        return "Name: $name\nPhone: $phone\nEmail: $email\nMy Budget: $budget"
     }
 }
