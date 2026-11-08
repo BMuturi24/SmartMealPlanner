@@ -3,6 +3,7 @@ package com.example.smartmealplanner
 import android.net.Uri
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.smartmealplanner.databinding.ActivityLoginBinding
@@ -42,6 +43,37 @@ class LoginActivity: AppCompatActivity(){
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.strathmore.edu"))
             startActivity(intent)
         }
+    }
+
+    // The screen is now VISIBLE
+    override fun onStart() {
+        super.onStart()
+        Log.d("LOGIN_LIFECYCLE", "LoginActivity: onStart")
+    }
+    // The screen is in FRONT and the user can interact with it
+    override fun onResume() {
+        super.onResume()
+        Log.d("LOGIN_LIFECYCLE", "LoginActivity: onResume")
+    }
+    // The screen is LEAVING the front (e.g. Home was pressed)
+    override fun onPause() {
+        super.onPause()
+        Log.d("LOGIN_LIFECYCLE", "LoginActivity: onPause")
+    }
+    // The screen is NO LONGER VISIBLE
+    override fun onStop() {
+        super.onStop()
+        Log.d("LOGIN_LIFECYCLE", "LoginActivity: onStop")
+    }
+    // The user came BACK to a stopped screen
+    override fun onRestart() {
+        super.onRestart()
+        Log.d("LOGIN_LIFECYCLE", "LoginActivity: onRestart")
+    }
+    // The screen is being DESTROYED
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("LOGIN_LIFECYCLE", "LoginActivity: onDestroy")
     }
 
 }
