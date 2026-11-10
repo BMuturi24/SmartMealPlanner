@@ -1,74 +1,37 @@
 package com.example.smartmealplanner
 
-import android.util.Log
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.smartmealplanner.databinding.ActivityRegisterBinding
 
-class RegisterActivity : AppCompatActivity(){
+class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Session.init(this)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.registerButton.setOnClickListener {
-            val name = binding.fullNameEditText.text.toString().trim()
-            val email = binding.registerEmailEditText.text.toString().trim()
-            val password = binding.registerPasswordEditText.text.toString()
-
-            if (name.isEmpty() || password.isEmpty()){
-                Toast.makeText(this,"Please fill in all fields", Toast.LENGTH_SHORT).show()
+            val password = binding.passwordInput.text.toString()
+            // Asking twice means a typo here can't lock the client out at login.
+            if (password != binding.confirmInput.text.toString()) {
+                Toast.makeText(this, "The two passwords don't match", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            Toast.makeText(this,"Account has been created. Please log in gto continue", Toast.LENGTH_LONG).show()
-
-            val intent = Intent(this,LoginActivity::class.java)
-
-            intent.putExtra("EMAIL",email)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-
-            startActivity(intent)
+            Session.repo.createAccount(binding.usernameInput.text.toString(), binding.emailInput.text.toString(), password)
+                .onSuccess { account ->
+                    Session.account = account
+                    Session.loginName = account.username
+                    Toast.makeText(this, "You are logged in as ${account.username}", Toast.LENGTH_LONG).show()
+                    startActivity(Intent(this, ClientHomeActivity::class.java))
+                    finishAffinity()
+                }
+                .onFailure { Toast.makeText(this, it.message, Toast.LENGTH_LONG).show() }
         }
-
-        binding.loginLinkTextView.setOnClickListener {
-            finish()
-        }
-
+        binding.backToLoginButton.setOnClickListener { finish() }
     }
-
-    // The screen is now VISIBLE
-    override fun onStart() {
-        super.onStart()
-        Log.d("REGISTER_LIFECYCLE", "RegisterActivity: onStart")
-    }
-    // The screen is in FRONT and the user can interact with it
-    override fun onResume() {
-        super.onResume()
-        Log.d("REGISTER_LIFECYCLE", "RegisterActivity: onResume")
-    }
-    // The screen is LEAVING the front (e.g. Home was pressed)
-    override fun onPause() {
-        super.onPause()
-        Log.d("REGISTER_LIFECYCLE", "RegisterActivity: onPause")
-    }
-    // The screen is NO LONGER VISIBLE
-    override fun onStop() {
-        super.onStop()
-        Log.d("REGISTER_LIFECYCLE", "RegisterActivity: onStop")
-    }
-    // The user came BACK to a stopped screen
-    override fun onRestart() {
-        super.onRestart()
-        Log.d("REGISTER_LIFECYCLE", "RegisterActivity: onRestart")
-    }
-    // The screen is being DESTROYED
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("REGISTER_LIFECYCLE", "RegisterActivity: onDestroy")
-    }
-
 }
