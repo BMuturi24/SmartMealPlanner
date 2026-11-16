@@ -1,10 +1,10 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.android.application)
-
-    // NEW: switch Safe Args on for this app.
-// It must come BELOW the android.application line
+    id("org.jetbrains.kotlin.android")
     id("androidx.navigation.safeargs.kotlin")
-
+    id("kotlin-kapt")
 }
 
 android {
@@ -14,7 +14,6 @@ android {
 
         buildFeatures{
             viewBinding = true
-            dataBinding = true
         }
     }
 
@@ -41,9 +40,19 @@ android {
     }
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_11)
+    }
+}
+
 dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.9.8")
     implementation("androidx.navigation:navigation-ui-ktx:2.9.8")
+    // Lifecycle / ViewModel / LiveData
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.9.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.0")
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
