@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/client_nav_graph"
+    app:startDestination="@id/setupFragment">
+
+    <fragment
+        android:id="@+id/setupFragment"
+        android:name="com.example.smartmealplanner.ui.clients.SetupFragment"
+        android:label="Setup Profile">
+        <action
+            android:id="@+id/action_setup_to_dashboard"
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@id/setupFragment"
+            app:popUpToInclusive="false"/>
+        <action
+            android:id="@+id/action_setup_to_summary"
+            app:destination="@id/profileSummaryFragment"
+            app:popUpTo="@id/setupFragment"
+            app:popUpToInclusive="false"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.example.smartmealplanner.ui.dashboard.DashboardFragment"
+        android:label="Dashboard">
+        <action
+            android:id="@+id/action_dashboard_to_summary"
+            app:destination="@id/profileSummaryFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileSummaryFragment"
+        android:name="com.example.smartmealplanner.ui.clients.ProfileSummaryFragment"
+        android:label="Profile Summary">
+        <action
+            android:id="@+id/action_summary_to_setup"
+            app:destination="@id/setupFragment"/>
+        <!-- Added action from Summary to Dashboard -->
+        <action
+            android:id="@+id/action_summary_to_dashboard"
+            app:destination="@id/dashboardFragment"/>
+    </fragment>
+
+</navigation>
