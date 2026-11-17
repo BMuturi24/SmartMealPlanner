@@ -5,6 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -14,6 +15,7 @@ android {
 
         buildFeatures{
             viewBinding = true
+            dataBinding = true
         }
     }
 
@@ -47,6 +49,18 @@ kotlin {
 }
 
 dependencies {
+    // Room: the local database library
+    implementation("androidx.room:room-runtime:2.7.2")
+    implementation("androidx.room:room-ktx:2.7.2")
+    // Generates the Room code (ksp, not implementation)
+    ksp("androidx.room:room-compiler:2.7.2")
+    //Architecture Components: ViewModel and LiveData
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")
+    // Gives Fragments "by activityViewModels()" (used in Stage 4)
+    implementation("androidx.fragment:fragment-ktx:1.8.5")
+
     implementation("androidx.navigation:navigation-fragment-ktx:2.9.8")
     implementation("androidx.navigation:navigation-ui-ktx:2.9.8")
     // Lifecycle / ViewModel / LiveData

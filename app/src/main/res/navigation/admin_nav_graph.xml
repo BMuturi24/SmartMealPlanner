@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/admin_nav_graph"
+    app:startDestination="@id/viewClientFragment">
+
+    <fragment
+        android:id="@+id/viewClientFragment"
+        android:name="com.example.smartmealplanner.ui.clients.ViewClientFragment"
+        android:label="Clients">
+        <action
+            android:id="@+id/action_view_to_add"
+            app:destination="@id/addClientFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/addClientFragment"
+        android:name="com.example.smartmealplanner.ui.clients.AddClientFragment"
+        android:label="Add Client"/>
+
+</navigation>
