@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.example.smartmealplanner.R
 import com.example.smartmealplanner.data.local.AppDatabase
 import com.example.smartmealplanner.data.repository.MealRepository
@@ -23,7 +22,6 @@ class AddClientFragment : Fragment() {
     private lateinit var etEmail: EditText
     private lateinit var etPassword: EditText
     private lateinit var btnSaveClient: Button
-    private lateinit var btnBack: Button
 
     private val vm: ClientViewModel by viewModels {
         object : ViewModelProvider.Factory {
@@ -50,7 +48,6 @@ class AddClientFragment : Fragment() {
         etEmail = view.findViewById(R.id.etEmail)
         etPassword = view.findViewById(R.id.etPassword)
         btnSaveClient = view.findViewById(R.id.btnSaveClient)
-        btnBack = view.findViewById(R.id.btnBack)
 
         vm.message.observe(viewLifecycleOwner) { msg ->
             msg?.let {
@@ -74,7 +71,5 @@ class AddClientFragment : Fragment() {
             etEmail.text?.clear()
             etPassword.text?.clear()
         }
-
-        btnBack.setOnClickListener { findNavController().popBackStack() }
     }
 }

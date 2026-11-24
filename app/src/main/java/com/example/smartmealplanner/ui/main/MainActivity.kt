@@ -2,13 +2,14 @@ package com.example.smartmealplanner.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import com.example.smartmealplanner.R
 import com.example.smartmealplanner.ui.auth.LoginActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,11 +21,12 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, "Welcome $name", Toast.LENGTH_LONG).show()
 
         val tvHeader = findViewById<TextView>(R.id.tvClientHeader)
-        val btnLogout = findViewById<Button>(R.id.btnLogout)
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavClient)
         val navHost = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHost.navController
 
-        // Update the title bar based on which screen the user is on
-        navHost.navController.addOnDestinationChangedListener { _, destination, _ ->
+        // Update header dynamically
+        navController.addOnDestinationChangedListener { _, destination, _ ->
             tvHeader.text = when (destination.id) {
                 R.id.setupFragment -> "Set Up Your Profile — $name"
                 R.id.dashboardFragment -> "Your Meal Plan — $name"
@@ -33,15 +35,39 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Logout functionality
-        btnLogout.setOnClickListener {
-            // Clear the saved userId
-            getSharedPreferences("mealplanner", MODE_PRIVATE).edit().clear().apply()
+        // Bottom Nav Click Listener
+        bottomNav.setOnItemSelectedListener { item ->
+            val currentDest = navController.currentDestination?.id
 
-            // Redirect to Login and close this activity
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
+            when (item.itemId) {
+                R.id.nav_meals -> {
+                    if (currentDest != R.id.dashboardFragment) {
+                        // Navigate to dashboard and clear backstack
+                        val navOptions = NavOptions.Builder()
+                            .setPopUpTo(R.id.client_nav_graph, true)
+                            .build()
+                        navController.navigate(R.id.dashboardFragment, null, navOptions)
+                    }
+                    true
+                }
+                R.id.nav_profile -> {
+                    if (currentDest != R.id.profileSummaryFragment) {
+                        val navOptions = NavOptions.Builder()
+                            .setPopUpTo(R.id.client_nav_graph, true)
+                            .build()
+                        navController.navigate(R.id.profileSummaryFragment, null, navOptions)
+                    }
+                    true
+                }
+                R.id.nav_logout_client -> {
+                    // Clear prefs and log out
+                    getSharedPreferences("mealplanner", MODE_PRIVATE).edit().clear().apply()
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    finish()
+                    true
+                }
+                else -> false
+            }
         }
     }
 }

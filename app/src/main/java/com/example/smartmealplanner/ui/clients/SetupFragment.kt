@@ -57,9 +57,17 @@ class SetupFragment : Fragment() {
         val db = AppDatabase.get(requireContext())
         repo = MealRepository(db.userDao(), db.mealDao(), db.clientProfileDao())
 
+        // Load existing profile if it exists, and adjust button text accordingly
         lifecycleScope.launch {
             val existing = repo.profileFor(userId)
-            existing?.let { prefill(it) }
+            if (existing != null) {
+                prefill(existing)
+                // User already has a profile, so this is an "Edit" screen
+                btnGoToSummary.text = "Cancel"
+            } else {
+                // First-time setup
+                btnGoToSummary.text = "Skip for Now"
+            }
         }
 
         // SAVE -> Saves to DB and goes to Profile Page
@@ -69,7 +77,7 @@ class SetupFragment : Fragment() {
             }
         }
 
-        // VIEW PROFILE -> Goes to Profile Page WITHOUT saving unsaved changes
+        // CANCEL / SKIP -> Goes to Profile Page WITHOUT saving unsaved changes
         btnGoToSummary.setOnClickListener {
             findNavController().navigate(R.id.action_setup_to_summary)
         }

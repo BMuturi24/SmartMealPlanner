@@ -14,7 +14,6 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:padding="16dp"
-        android:paddingTop="48dp"
         android:background="#DDDDDD"/>
 
     <androidx.fragment.app.FragmentContainerView
@@ -26,4 +25,11 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/admin_nav_graph" />
 
+    <!-- Bottom Navigation for Admin -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavAdmin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        app:menu="@menu/admin_bottom_menu" />
 </LinearLayout>

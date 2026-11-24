@@ -23,23 +23,32 @@
     <fragment
         android:id="@+id/dashboardFragment"
         android:name="com.example.smartmealplanner.ui.dashboard.DashboardFragment"
-        android:label="Dashboard">
+        android:label="Meal Plan">
         <action
             android:id="@+id/action_dashboard_to_summary"
-            app:destination="@id/profileSummaryFragment"/>
+            app:destination="@id/profileSummaryFragment"
+            app:popUpTo="@id/dashboardFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_dashboard_to_setup"
+            app:destination="@id/setupFragment"
+            app:popUpTo="@id/dashboardFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
 
     <fragment
         android:id="@+id/profileSummaryFragment"
         android:name="com.example.smartmealplanner.ui.clients.ProfileSummaryFragment"
-        android:label="Profile Summary">
+        android:label="Profile">
         <action
             android:id="@+id/action_summary_to_setup"
-            app:destination="@id/setupFragment"/>
-        <!-- Added action from Summary to Dashboard -->
+            app:destination="@id/setupFragment"
+            app:popUpTo="@id/profileSummaryFragment"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_summary_to_dashboard"
-            app:destination="@id/dashboardFragment"/>
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@id/profileSummaryFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
-
 </navigation>
