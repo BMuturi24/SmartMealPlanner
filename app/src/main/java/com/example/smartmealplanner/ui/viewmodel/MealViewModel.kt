@@ -25,6 +25,7 @@ class MealViewModel(private val repo: MealRepository) : ViewModel() {
         viewModelScope.launch {
             val e = repo.profileFor(userId)
             _profile.value = e?.let {
+                // Convert Entity to Domain object (Encapsulation)
                 ClientProfile(
                     clientId = it.userId,
                     username = "",
@@ -38,6 +39,7 @@ class MealViewModel(private val repo: MealRepository) : ViewModel() {
         }
     }
 
+    //Polymorphism - filtering based on the user's goal
     fun generatePlanFromProfile() {
         val p = _profile.value ?: return
         viewModelScope.launch {

@@ -48,6 +48,7 @@ class RegisterActivity : AppCompatActivity() {
         val pwd2     = etConfirmPassword.text.toString()
         val role     = if (rbAdmin.isChecked) "ADMIN" else "CLIENT"
 
+        // Validate that no fields are empty and passwords match before saving info to database
         if (username.isEmpty() || email.isEmpty() || pwd1.isEmpty()) {
             Toast.makeText(this, "All fields required", Toast.LENGTH_SHORT).show()
             return
@@ -67,6 +68,7 @@ class RegisterActivity : AppCompatActivity() {
                     "Registered! Please log in.", Toast.LENGTH_SHORT).show()
                 finish()
             } catch (e: Exception) {
+                // Catch database errors (e.g., duplicate username)
                 Toast.makeText(this@RegisterActivity,
                     "Registration failed: ${e.message}", Toast.LENGTH_LONG).show()
             }

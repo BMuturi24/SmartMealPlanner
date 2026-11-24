@@ -33,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var btnLogin: Button
     private lateinit var tvGoRegister: TextView
 
-    // Permission launcher for notifications (Android 13+)
+    // Permission launcher for notifications permission
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
@@ -46,14 +46,17 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        // Bind UI elements manually using findViewById
         etLoginId = findViewById(R.id.etLoginId)
         etPassword = findViewById(R.id.etPassword)
         btnLogin = findViewById(R.id.btnLogin)
         tvGoRegister = findViewById(R.id.tvGoRegister)
 
+        // Initialize the Room database and Repository
         val db = AppDatabase.get(this)
         repo = MealRepository(db.userDao(), db.mealDao(), db.clientProfileDao())
 
+        // Request Notification permission and schedule the daily WorkManager task
         // Ask for notification permission if needed
         askNotificationPermission()
 
@@ -75,7 +78,9 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+
     private fun scheduleDailyReminder() {
+        // WorkManager schedules a background task to run every 24 hours
         val reminderRequest = PeriodicWorkRequestBuilder<MealReminderWorker>(24, TimeUnit.HOURS)
             .build()
         WorkManager.getInstance(this).enqueue(reminderRequest)
@@ -98,6 +103,7 @@ class LoginActivity : AppCompatActivity() {
                 return@launch
             }
 
+            // Save the user's ID locally so other screens know who is logged in
             getSharedPreferences("mealplanner", MODE_PRIVATE)
                 .edit().putInt("userId", user.id).apply()
 
@@ -106,6 +112,7 @@ class LoginActivity : AppCompatActivity() {
             Toast.makeText(this@LoginActivity,
                 "You are logged in as ${user.username}", Toast.LENGTH_LONG).show()
 
+            // Route the user to different screens based on their roles
             val target = if (user.role == "ADMIN") AdminActivity::class.java
             else MainActivity::class.java
             val i = Intent(this@LoginActivity, target)

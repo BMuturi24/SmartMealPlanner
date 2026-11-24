@@ -10,6 +10,7 @@ class AdminActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin)
 
+       // Retrieve the admin's name passed from the Login screen via Intent
         val tvAdminTitle = findViewById<TextView>(R.id.tvAdminTitle)
         tvAdminTitle.text = "Admin Panel — ${intent.getStringExtra("username") ?: "Admin"}"
     }

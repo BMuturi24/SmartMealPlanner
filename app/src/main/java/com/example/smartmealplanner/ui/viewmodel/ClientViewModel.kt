@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 
 class ClientViewModel(private val repo: MealRepository) : ViewModel() {
 
+    // LiveData to hold the list of clients and their profiles
     private val _clients = MutableLiveData<List<User>>(emptyList())
     val clients: LiveData<List<User>> = _clients
 

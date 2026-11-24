@@ -7,7 +7,7 @@
         <item name="colorOnPrimary">#FFFFFF</item>        <!-- Text on Green -->
 
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">#8BC34A</item>        <!-- Light Green / Accent -->
+        <item name="colorSecondary">#8BC34A</item>
         <item name="colorSecondaryVariant">#689F38</item>
         <item name="colorOnSecondary">#000000</item>
 
