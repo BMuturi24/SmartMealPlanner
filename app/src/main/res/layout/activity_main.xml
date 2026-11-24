@@ -6,17 +6,33 @@
     android:orientation="vertical"
     android:fitsSystemWindows="true">
 
-    <!-- Client Header (Title changes dynamically) -->
-    <TextView
-        android:id="@+id/tvClientHeader"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Client Panel"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:orientation="horizontal"
+        android:background="#DDDDDD"
         android:padding="16dp"
-        android:background="#DDDDDD"/>
+        android:gravity="center_vertical">
 
+        <TextView
+            android:id="@+id/tvClientHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Client Panel"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logout"
+            android:textSize="12sp"
+            android:backgroundTint="#0B0A0B"/>
+    </LinearLayout>
+
+    <!-- Navigation Host for Fragments -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"

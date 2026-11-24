@@ -1,11 +1,14 @@
 package com.example.smartmealplanner.ui.main
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import com.example.smartmealplanner.R
+import com.example.smartmealplanner.ui.auth.LoginActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, "Welcome $name", Toast.LENGTH_LONG).show()
 
         val tvHeader = findViewById<TextView>(R.id.tvClientHeader)
+        val btnLogout = findViewById<Button>(R.id.btnLogout)
         val navHost = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
 
         // Update the title bar based on which screen the user is on
@@ -27,6 +31,17 @@ class MainActivity : AppCompatActivity() {
                 R.id.profileSummaryFragment -> "Your Profile — $name"
                 else -> "Client Panel — $name"
             }
+        }
+
+        // Logout functionality
+        btnLogout.setOnClickListener {
+            // Clear the saved userId
+            getSharedPreferences("mealplanner", MODE_PRIVATE).edit().clear().apply()
+
+            // Redirect to Login and close this activity
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 }
